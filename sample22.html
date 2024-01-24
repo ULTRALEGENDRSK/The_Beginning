@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      max-width: 300px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    #welcomeMessage {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loginContainer">
+    <form id="loginForm">
+      <h2>Login</h2>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <input type="checkbox" onclick="showHidePassword()"> Show Password
+
+      <button type="button" onclick="login()">Login</button>
+    </form>
+  </div>
+
+  <div id="welcomeMessage">
+    <h2>Welcome!</h2>
+    <p id="usernameDisplay"></p>
+    <p><a href="sample.html">Continue to Home Page</a></p>
+  </div>
+
+  <script>
+    function login() {
+      var usernameInput = document.getElementById('username').value;
+      var passwordInput = document.getElementById('password').value;
+
+      // Perform basic client-side validation
+      if (usernameInput.trim() !== '' && passwordInput.trim() !== '') {
+        // Store login information in localStorage
+        localStorage.setItem('username', usernameInput);
+        localStorage.setItem('isLoggedIn', 'true');
+
+        // Redirect to the welcome page
+        window.location.href = 'sample.html';
+      } else {
+        alert('Please enter both username and password.');
+      }
+    }
+
+    function showHidePassword() {
+      var passwordInput = document.getElementById('password');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    }
+
+    // Check if the user is already logged in
+    var isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (isLoggedIn === 'true') {
+      showWelcomeMessage();
+    }
+
+    function showWelcomeMessage() {
+      var loginContainer = document.getElementById('loginContainer');
+      var welcomeMessage = document.getElementById('welcomeMessage');
+      var usernameDisplay = document.getElementById('usernameDisplay');
+      var storedUsername = localStorage.getItem('username');
+
+      if (storedUsername) {
+        loginContainer.style.display = 'none';
+        welcomeMessage.style.display = 'block';
+        usernameDisplay.textContent = 'Hello, ' + storedUsername + '!';
+      }
+    }
+  </script>
+
+</body>
+</html>
